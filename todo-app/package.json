@@ -4,8 +4,11 @@
   "description": "A todo client app",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon -e js,ejs",
+    "start:prod": "views/todos.ejs",
+    "pretest": "NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create",
+    "test": "NODE_ENV=test jest --detectOpenHandles",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.js": [
