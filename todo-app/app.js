@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.get("/", function (request, response) {
+  const path = require("path");
+  app.set("views", path.join(__dirname, "views"));
   response.render("index");
 });
 
