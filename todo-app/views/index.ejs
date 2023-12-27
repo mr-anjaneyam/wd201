@@ -10,7 +10,7 @@
   </head>
   <body>
     <%- include("header.ejs") %> <br>
-    <%- include("todos.ejs") %> 
+    <%- include('todos.ejs', {allTodos: []}) %> 
     <%- include("footer.ejs") %>
   </body>
 </html>
