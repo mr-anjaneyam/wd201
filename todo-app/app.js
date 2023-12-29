@@ -1,66 +1,88 @@
 const express = require("express");
-const ejs = require('ejs');
 const app = express();
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
+const path = require("path");
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
-app.get("/", function (request, response) {
-  const path = require("path");
-  app.set("views", path.join(__dirname, "views"));
-  response.render("index");
-});
 
-app.get("/todos", async function (_request, response) {
-  console.log("Processing list of all Todos ...");
+// Serve static files
+app.use(express.static(path.join(__dirname, "public")));
+
+// Set views folder
+app.set("views", path.join(__dirname, "views"));
+
+app.get("/", async (request, response) => {
   try {
-    const todos = await Todo.findAll();
-    return response.send(todos);
+    const todos = await Todo.getTodos();
+    if (request.accepts("html")) {
+      response.render("index", {
+        allTodos: todos,
+      });
+    } else {
+      response.json({
+        allTodos: todos,
+      });
+    }
   } catch (error) {
     console.log(error);
-    return response.status(422).json(error);
+    response.status(422).json(error);
   }
 });
 
-app.get("/todos/:id", async function (request, response) {
+app.get("/todos", async (request, response) => {
+  try {
+    const todos = await Todo.getTodos();
+    response.json(todos);
+  } catch (error) {
+    console.log(error);
+    response.status(422).json(error);
+  }
+});
+
+app.get("/todos/:id", async (request, response) => {
   try {
     const todo = await Todo.findByPk(request.params.id);
-    return response.json(todo);
+    response.json(todo);
   } catch (error) {
     console.log(error);
-    return response.status(422).json(error);
+    response.status(422).json(error);
   }
 });
 
-app.post("/todos", async function (request, response) {
+app.post("/todos", async (request, response) => {
   try {
     const todo = await Todo.addTodo(request.body);
-    return response.json(todo);
+    response.json(todo);
   } catch (error) {
     console.log(error);
-    return response.status(422).json(error);
+    response.status(422).json(error);
   }
 });
 
-app.put("/todos/:id/markAsCompleted", async function (request, response) {
-  const todo = await Todo.findByPk(request.params.id);
+app.put("/todos/:id/markAsCompleted", async (request, response) => {
   try {
+    const todo = await Todo.findByPk(request.params.id);
     const updatedTodo = await todo.markAsCompleted();
-    return response.json(updatedTodo);
+    response.json(updatedTodo);
   } catch (error) {
     console.log(error);
-    return response.status(422).json(error);
+    response.status(422).json(error);
   }
 });
 
-app.delete("/todos/:id", async function (request, response) {
-  console.log("We have to delete a Todo with ID: ", request.params.id);
-  const deleteTodo = await Todo.destroy({
-    where: {
-      id: request.params.id,
-    },
-  });
-  response.send(deleteTodo ? true : false);
+app.delete("/todos/:id", async (request, response) => {
+  try {
+    const deletedItem = await Todo.destroy({
+      where: {
+        id: request.params.id,
+      },
+    });
+    response.send(deletedItem ? true : false);
+  } catch (error) {
+    console.error(error);
+    response.status(422).json(error);
+  }
 });
 
 module.exports = app;
