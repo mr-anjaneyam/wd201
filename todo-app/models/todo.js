@@ -16,12 +16,16 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static getTodos() {
-      return this.findAll({ order: [["id", "ASC"]] });
+      return this.findAll();
     }
 
     markAsCompleted() {
       return this.update({ completed: true });
     }
+    static gettodo = async () => {
+      const todos = await Todo.findAll();
+      return todos;
+    };
   }
   Todo.init(
     {
