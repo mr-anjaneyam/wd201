@@ -1,4 +1,8 @@
 {
+  "name": "wd201",
+  "version": "1.0.0",
+  "description": "ThisisforWD201",
+  "main": "index.js",
   "scripts": {
     "start": "nodemon -e js,ejs",
     "start:prod": "node index.js && npx sequelize-cli db:migrate",
