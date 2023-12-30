@@ -1,17 +1,14 @@
 const express = require("express");
+require('dotenv').config()
 const app = express();
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
 const path = require("path");
 app.use(bodyParser.json());
 app.set("view engine", "ejs");
-
-// Serve static files
 app.use(express.static(path.join(__dirname, "public")));
 
-// Set views folder
 app.set("views", path.join(__dirname, "views"));
-
 app.get("/", async (request, response) => {
   try {
     const todos = await Todo.getTodos();
