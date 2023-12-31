@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon -e js,ejs",
-    "start:prod": "node index.js && npx sequelize-cli db:migrate",
-    "pretest": "NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create",
-    "test": "NODE_ENV=test jest --detectOpenHandles",
+    "start:prod": "node index.js",
+    "pretest": "set NODE_ENV=test&& npx sequelize-cli db:drop && set NODE_ENV=test&& npx sequelize-cli db:create",
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles",
     "prepare": "cd .. && husky install todo-app/.husky"
   },
 
