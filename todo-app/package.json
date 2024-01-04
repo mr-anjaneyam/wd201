@@ -23,11 +23,6 @@
     "mysql2": "^3.6.5",
     "pg": "^8.11.3"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run precommit"
-    }
-  },
   "devDependencies": {
     "eslint": "^8.56.0",
     "husky": "^8.0.1",
