@@ -10,7 +10,6 @@
     "test": "NODE_ENV=test jest --detectOpenHandles",
     "prepare": "cd .. && husky install todo-app/.husky"
   },
-
   "lint-staged": {
     "*.js": [
       "prettier --write ."
