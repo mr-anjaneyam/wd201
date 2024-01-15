@@ -1,106 +1,17 @@
 <div class="items-center">
   <div>
     <h5 style="display: inline-block; margin-right: 1rem">Overdue</h5>
-    <span
-      id="count-overdue"
-      class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2"
-      style="display: inline-block"
-      >2</span
-    >
+    <span id="count-overdue" class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2" style="display: inline-block">2</span>
   </div>
+
   <ul class="list-none">
     <li class="Todo-Item">
-      <div
-        class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-gray-50"
-      >
-        <input
-          id="todo-checkbox-1"
-          type="checkbox"
-          class="w-4 h-4 text-blue-600 bg-gray-100 rounded border"
-        />
-        <label
-          for="todo-checkbox-1"
-          class="ml-2 text-sm text-gray-600 cursor-pointer"
-          >Overdue Task 1</label
-        >
-        <a href="#" class="hidden trash-icon ml-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-4 h-4"
-          >
-            <path
-              d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z"
-              stroke="currentColor"
-              stroke-width="2"
-            />
-          </svg>
-        </a>
-      </div>
-    </li>
-    <li class="Todo-Item">
-      <div
-        class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-gray-50"
-      >
-        <input
-          id="todo-checkbox-1"
-          type="checkbox"
-          class="w-4 h-4 text-blue-600 bg-gray-100 rounded border"
-        />
-        <label
-          for="todo-checkbox-1"
-          class="ml-2 text-sm text-gray-600 cursor-pointer"
-          >Overdue Task 2</label
-        >
-        <a href="#" class="hidden trash-icon ml-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-4 h-4"
-          >
-            <path
-              d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z"
-              stroke="currentColor"
-              stroke-width="2"
-            />
-          </svg>
-        </a>
-      </div>
-    </li>
-    <li class="Todo-Item">
-      <div
-        class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-gray-50"
-      >
-        <input
-          id="todo-checkbox-1"
-          type="checkbox"
-          class="w-4 h-4 text-blue-600 bg-gray-100 rounded border"
-        />
-        <label
-          for="todo-checkbox-1"
-          class="ml-2 text-sm text-gray-600 cursor-pointer"
-          >Overdue Task 3</label
-        >
-        <a href="#" class="hidden trash-icon ml-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-4 h-4"
-          >
-            <path
-              d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z"
-              stroke="currentColor"
-              stroke-width="2"
-            />
+      <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-gray-50">
+        <input id="todo-checkbox-<%= todo.dataValues.id %>" type="checkbox"  <%= todo.dataValues.completed ? "checked":"" %> onclick="updateTodo(<%= todo.dataValues.id  %>)" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border" />
+        <label for="todo-checkbox-<%= todo.dataValues.id %>" class="ml-2 text-sm text-gray-600 cursor-pointer"><%= todo.dataValues.title %></label>
+        <a href="#" class="hidden trash-icon ml-2" onclick=" deleteTodo('<%= todo.dataValues.id %>')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+            <path d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z" stroke="currentColor" stroke-width="2" />
           </svg>
         </a>
       </div>
@@ -109,74 +20,17 @@
 
   <div>
     <h5 style="display: inline-block; margin-right: 1rem">Due Today</h5>
-    <span
-      id="count-due-today"
-      class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2"
-      style="display: inline-block"
-      >2</span
-    >
+    <span id="count-due-today" class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2"
+      style="display: inline-block">2</span>
   </div>
   <ul class="list-none">
     <li class="Todo-Item">
-      <div
-        class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-gray-50"
-      >
-        <input
-          id="todo-checkbox-1"
-          type="checkbox"
-          class="w-4 h-4 text-blue-600 bg-gray-100 rounded border"
-        />
-        <label
-          for="todo-checkbox-1"
-          class="ml-2 text-sm text-gray-600 cursor-pointer"
-          >Task 1</label
-        >
-        <a href="#" class="hidden trash-icon ml-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-4 h-4"
-          >
-            <path
-              d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z"
-              stroke="currentColor"
-              stroke-width="2"
-            />
-          </svg>
-        </a>
-      </div>
-    </li>
-    <li class="Todo-Item">
-      <div
-        class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-gray-50"
-      >
-        <input
-          id="todo-checkbox-1"
-          type="checkbox"
-          class="w-4 h-4 text-blue-600 bg-gray-100 rounded border"
-        />
-        <label
-          for="todo-checkbox-1"
-          class="ml-2 text-sm text-gray-600 cursor-pointer"
-          >Task 2</label
-        >
-        <a href="#" class="hidden trash-icon ml-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-4 h-4"
-          >
-            <path
-              d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z"
-              stroke="currentColor"
-              stroke-width="2"
-            />
+      <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-gray-50">
+        <input id="todo-checkbox-<%= todo.dataValues.id %>" type="checkbox"  <%= todo.dataValues.completed ? "checked":"" %> onclick="updateTodo(<%= todo.dataValues.id  %>)" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border" />
+        <label for="todo-checkbox-<%= todo.dataValues.id %>" class="ml-2 text-sm text-gray-600 cursor-pointer"><%= todo.dataValues.title %></label>
+        <a href="#" class="hidden trash-icon ml-2" onclick=" deleteTodo('<%= todo.dataValues.id %>')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+            <path d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z" stroke="currentColor" stroke-width="2" />
           </svg>
         </a>
       </div>
@@ -185,72 +39,36 @@
 
   <div>
     <h5 style="display: inline-block; margin-right: 1rem">Due Later</h5>
-    <span
-      id="count-due-later"
-      class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2"
-      style="display: inline-block"
-      >2</span
-    >
+    <span id="count-due-later" class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2"
+      style="display: inline-block">2</span>
   </div>
   <ul class="list-none">
     <li class="Todo-Item">
-      <div class="flex w-fit my-2 px-2 py-1 rounded hover:bg-gray-50">
-        <input
-          id="todo-checkbox-1"
-          type="checkbox"
-          class="w-4 h-4 text-blue-600 bg-gray-100 rounded border"
-        />
-        <label
-          for="todo-checkbox-1"
-          class="ml-2 text-sm text-gray-600 cursor-pointer"
-          >Task to be done 2</label
-        >
-        <a href="#" class="hidden trash-icon ml-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-4 h-4"
-          >
-            <path
-              d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z"
-              stroke="currentColor"
-              stroke-width="2"
-            />
+      <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-gray-50">
+        <input id="todo-checkbox-<%= todo.dataValues.id %>" type="checkbox"  <%= todo.dataValues.completed ? "checked":"" %> onclick="updateTodo(<%= todo.dataValues.id  %>)" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border" />
+        <label for="todo-checkbox-<%= todo.dataValues.id %>" class="ml-2 text-sm text-gray-600 cursor-pointer"><%= todo.dataValues.title %></label>
+        <a href="#" class="hidden trash-icon ml-2" onclick=" deleteTodo('<%= todo.dataValues.id %>')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+            <path d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z" stroke="currentColor" stroke-width="2" />
           </svg>
         </a>
       </div>
     </li>
+  </ul>
+
+  <div>
+    <h5 style="display: inline-block; margin-right: 1rem">Completed Items</h5>
+    <span id="count-due-later" class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2"
+      style="display: inline-block">2</span>
+  </div>
+  <ul class="list-none">
     <li class="Todo-Item">
-      <div
-        class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-gray-50"
-      >
-        <input
-          id="todo-checkbox-1"
-          type="checkbox"
-          class="w-4 h-4 text-blue-600 bg-gray-100 rounded border"
-        />
-        <label
-          for="todo-checkbox-1"
-          class="ml-2 text-sm text-gray-600 cursor-pointer"
-          >Task to be done 2</label
-        >
-        <a href="#" class="hidden trash-icon ml-2">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-4 h-4"
-          >
-            <path
-              d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z"
-              stroke="currentColor"
-              stroke-width="2"
-            />
+      <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-gray-50">
+        <input id="todo-checkbox-<%= todo.dataValues.id %>" type="checkbox"  <%= todo.dataValues.completed ? "checked":"" %> onclick="updateTodo(<%= todo.dataValues.id  %>)" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border" />
+        <label for="todo-checkbox-<%= todo.dataValues.id %>" class="ml-2 text-sm text-gray-600 cursor-pointer"><%= todo.dataValues.title %></label>
+        <a href="#" class="hidden trash-icon ml-2" onclick=" deleteTodo('<%= todo.dataValues.id %>')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+            <path d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z" stroke="currentColor" stroke-width="2" />
           </svg>
         </a>
       </div>
