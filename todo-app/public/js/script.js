@@ -18,7 +18,7 @@ function updateTodo(id) {
         .catch((err) => console.error(err));
 }
 function deleteTodo(id) {
-    console.log(id)
+    console.log(id);
     fetch(`/todos/${id}`, {
         method: "delete",
         headers: { "Content-Type": "application/json" },

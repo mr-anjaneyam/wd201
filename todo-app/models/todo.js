@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
 
-    static addTodo({ title, dueDate }) {
+    static async addTodo({ title, dueDate }) {
       return this.create({ title: title, dueDate: dueDate, completed: false });
     }
 
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       return this.update({ completed: true });
     }
 
-    static getTodos() {
+    static allTodos() {
       return this.findAll();
     }
     static async overdue() {
@@ -55,8 +55,8 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
     }
-    setCompletionStatus(bool) {
-      return this.update({ completed: bool });
+    async setCompletionStatus(bool) {
+      await this.update({ completed: bool });
     }
 
     static async remove(id) {
@@ -75,7 +75,6 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  // add the models to sequelize!
 
   Todo.init(
     {
