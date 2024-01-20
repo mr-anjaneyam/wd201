@@ -60,6 +60,7 @@
             <div class="flex-auto">
               <input
                 type="text"
+                name="title" 
                 placeholder="Task Title"
                 class="border border-gray-500 rounded-xl text-gray-900 w-full p-2 text-sm"
                 required
@@ -68,6 +69,7 @@
             <div class="flex-auto">
               <input
                 type="date"
+                name="dueDate" 
                 class="border border-gray-500 rounded-xl text-gray-900 w-full p-2 text-sm leading-4"
               />
             </div>
@@ -80,7 +82,7 @@
               </button>
             </div>
           </div>
-        </form>
+        </form>        
         <%- include('todos.ejs') %> <%- include("footer.ejs") %>
       </div>
     </div>
