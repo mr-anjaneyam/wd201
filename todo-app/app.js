@@ -37,15 +37,18 @@ app.get("/todos", async function (_request, response) {
   }
 });
 
-app.get("/todos/:id", async function (request, response) {
+app.put("/todos/:id", async function (request, response) {
+  const todo = await Todo.findByPk(request.params.id);
   try {
-    const todo = await Todo.findByPk(request.params.id);
+    const newCompletionStatus = !todo.completed;
+    await todo.update({ completed: newCompletionStatus });
     return response.json(todo);
   } catch (error) {
     console.log(error);
     return response.status(422).json(error);
   }
 });
+
 
 app.post("/todos", async function (request, response) {
   try {
@@ -67,7 +70,7 @@ app.put("/todos/:id", async function (request, response) {
     await todo.setCompletionStatus(todo.completed);
     return response.json(todo);
   } catch (error) {
-    console.log(error);
+    console.log(error);a
     return response.status(422).json(error);
   }
 });

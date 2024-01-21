@@ -13,7 +13,9 @@
       .querySelector('meta[name="csrf-token"]')
       .getAttribute("content");
     function updateTodo(id) {
-      const intendedCompletedState = !document.querySelector(`#todo-${id}`).checked;
+      const checkbox = document.querySelector(`#todo-${id}`);
+      const intendedCompletedState = checkbox.checked;
+  
       fetch(`/todos/${id}`, {
         method: "put",
         headers: { "Content-Type": "application/json" },
@@ -24,10 +26,14 @@
       })
         .then((res) => {
           if (res.ok) {
-            window.location.reload();
+            // Update the checkbox state after a successful update
+            checkbox.checked = intendedCompletedState;
           }
         })
         .catch((err) => console.error(err));
+  
+      // Prevent the default form submission behavior
+      return false;
     }
 
     function deleteTodo(id) {
