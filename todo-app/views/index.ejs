@@ -1,90 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta name="csrf-token" content="<%= csrfToken %>" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TO-DO Manager</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="/css/styles.css" />
-    <script>
-      var token = document
-        .querySelector('meta[name="csrf-token"]')
-        .getAttribute("content");
+<head>
+  <meta name="csrf-token" content="<%= csrfToken %>" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TO-DO Manager</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <script>
+    var token = document
+      .querySelector('meta[name="csrf-token"]')
+      .getAttribute("content");
       function updateTodo(id) {
-        const bool = document.querySelector(`#todo-checkbox-${id}`).checked;
-        var token = document
-          .querySelector('meta[name="csrf-token"]')
-          .getAttribute("content");
-        fetch(`/todos/${id}`, {
-          method: "put",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            completed: bool,
-            _csrf: token,
-          }),
-        })
-          .then((res) => {
-            if (res.ok) {
-              window.location.reload();
-            }
-          })
-          .catch((err) => console.error(err));
+  const bool = document.querySelector(`#todo-checkbox-${id}`).checked;
+  var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+  fetch(`/todos/${id}`, {
+    method: "put",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      completed: !bool, // Toggle completion status
+      _csrf: token,
+    }),
+  })
+    .then((res) => {
+      if (res.ok) {
+        window.location.reload(); // Refresh the page to reflect changes
       }
-      function deleteTodo(id) {
-        console.log(id);
-        fetch(`/todos/${id}`, {
-          method: "delete",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            _csrf: token,
-          }),
-        })
-          .then((res) => {
-            if (res.ok) {
-              window.location.reload();
-            }
-          })
-          .catch((err) => console.error(err));
-      }
-    </script>
-  </head>
+    })
+    .catch((err) => console.error(err));
+}
 
-  <body>
-    <div class="grid pt-28 grid-cols-6">
-      <div class="col-start-3 col-span-2">
-        <%- include("header.ejs") %>
-        <form action="/todos" method="post">
+    function deleteTodo(id) {
+      console.log(id);
+      fetch(`/todos/${id}`, {
+        method: "delete",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          _csrf: token,
+        }),
+      })
+        .then((res) => {
+          if (res.ok) {
+            window.location.reload();
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+    function validateForm() {
+      const dueDateInput = document.querySelector('input[name="dueDate"]');
+      if (dueDateInput.value.trim() === "") {
+        alert("Due Date cannot be empty");
+        return false;
+      }
+      return true;
+    }
+
+  </script>
+</head>
+
+<body>
+  <div class="grid pt-28 grid-cols-6">
+    <div class="col-start-3 col-span-2">
+      <%- include("header.ejs") %> <br>
+        <form action="/todos" method="post" onsubmit="return validateForm()">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <div class="flex gap-2 mt-5">
             <div class="flex-auto">
-              <input
-                type="text"
-                name="title" 
-                placeholder="Task Title"
-                class="border border-gray-500 rounded-xl text-gray-900 w-full p-2 text-sm"
-                required
-              />
+              <input type="text" name="title" placeholder="Task Title"
+                class="border border-gray-500 rounded-xl text-gray-900 w-full p-2 text-sm" required />
             </div>
             <div class="flex-auto">
-              <input
-                type="date"
-                name="dueDate" 
-                class="border border-gray-500 rounded-xl text-gray-900 w-full p-2 text-sm leading-4"
-              />
+              <input type="date" name="dueDate"
+                class="border border-gray-500 rounded-xl text-gray-900 w-full p-2 text-sm leading-4" />
             </div>
             <div class="flex-none">
-              <button
-                type="submit"
-                class="bg-green-700 text-white px-5 py-1.5 rounded-xl font-medium mr-2 mb-2"
-              >
+              <button type="submit" class="bg-green-700 text-white px-5 py-1.5 rounded-xl font-medium mr-2 mb-2">
                 Add
               </button>
             </div>
           </div>
-        </form>        
-        <%- include('todos.ejs') %> <%- include("footer.ejs") %>
-      </div>
+          </form> <br>
+          <%- include('todos.ejs') %> <br>
+          <%- include("footer.ejs") %>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
