@@ -13,7 +13,7 @@
       .querySelector('meta[name="csrf-token"]')
       .getAttribute("content");
     function updateTodo(id) {
-      const intendedCompletedState = !document.querySelector(`#todo-checkbox-${id}`).checked;
+      const intendedCompletedState = !document.querySelector(`#todo-${id}`).checked;
       fetch(`/todos/${id}`, {
         method: "put",
         headers: { "Content-Type": "application/json" },
