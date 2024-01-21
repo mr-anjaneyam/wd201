@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta name="csrf-token" content="<%= csrfToken %>" />
   <meta charset="UTF-8" />
@@ -11,24 +12,23 @@
     var token = document
       .querySelector('meta[name="csrf-token"]')
       .getAttribute("content");
-      function updateTodo(id) {
-  const bool = document.querySelector(`#todo-checkbox-${id}`).checked;
-  var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-  fetch(`/todos/${id}`, {
-    method: "put",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      completed: !bool, // Toggle completion status
-      _csrf: token,
-    }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        window.location.reload(); // Refresh the page to reflect changes
-      }
-    })
-    .catch((err) => console.error(err));
-}
+    function updateTodo(id) {
+      const intendedCompletedState = !document.querySelector(`#todo-checkbox-${id}`).checked;
+      fetch(`/todos/${id}`, {
+        method: "put",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          completed: intendedCompletedState,
+          _csrf: token,
+        }),
+      })
+        .then((res) => {
+          if (res.ok) {
+            window.location.reload();
+          }
+        })
+        .catch((err) => console.error(err));
+    }
 
     function deleteTodo(id) {
       console.log(id);
@@ -79,8 +79,8 @@
               </button>
             </div>
           </div>
-          </form> <br>
-          <%- include('todos.ejs') %> <br>
+        </form> <br>
+        <%- include('todos.ejs') %> <br>
           <%- include("footer.ejs") %>
     </div>
   </div>
