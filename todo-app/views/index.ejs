@@ -12,29 +12,51 @@
     var token = document
       .querySelector('meta[name="csrf-token"]')
       .getAttribute("content");
-    function updateTodo(id) {
-      const checkbox = document.querySelector(`#todo-${id}`);
-      const intendedCompletedState = checkbox.checked;
-  
-      fetch(`/todos/${id}`, {
-        method: "put",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          completed: intendedCompletedState,
-          _csrf: token,
-        }),
-      })
-        .then((res) => {
-          if (res.ok) {
-            // Update the checkbox state after a successful update
-            checkbox.checked = intendedCompletedState;
-          }
-        })
-        .catch((err) => console.error(err));
-  
-      // Prevent the default form submission behavior
-      return false;
-    }
+      function updateTodo(id) {
+  const checkbox = document.querySelector(`#todo-${id}`);
+  const intendedCompletedState = checkbox.checked;
+
+  fetch(`/todos/${id}`, {
+    method: "put",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      completed: intendedCompletedState,
+      _csrf: token,
+    }),
+  })
+    .then((res) => {
+      if (res.ok) {
+        // Move todo item to Completed Items section on the client side
+        const todoItem = document.querySelector(`#todo-${id}`).closest('.Todo-Item');
+        const completedItemsList = document.querySelector('#completed-items-list');
+
+        // Remove from the original section (Overdue, Due Today, Due Later)
+        const originalSection = getOriginalSection(todoItem);
+        originalSection.removeChild(todoItem);
+
+        if (intendedCompletedState) {
+          // Move to Completed Items
+          completedItemsList.appendChild(todoItem);
+        }
+      }
+    })
+    .catch((err) => console.error(err));
+
+  return false;
+}
+
+function getOriginalSection(todoItem) {
+  if (todoItem.classList.contains('overdue-section')) {
+    return document.querySelector('#overdue-list');
+  } else if (todoItem.classList.contains('due-today-section')) {
+    return document.querySelector('#due-today-list');
+  } else if (todoItem.classList.contains('due-later-section')) {
+    return document.querySelector('#due-later-list');
+  }
+  return document.querySelector('#completed-items-list');
+}
+
+
 
     function deleteTodo(id) {
       console.log(id);
