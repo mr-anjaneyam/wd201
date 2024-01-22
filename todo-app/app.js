@@ -40,8 +40,8 @@ app.get("/todos", async function (_request, response) {
 app.put("/todos/:id", async function (request, response) {
   const todo = await Todo.findByPk(request.params.id);
   try {
-    const newCompletionStatus = !todo.completed;
-    await todo.update({ completed: newCompletionStatus });
+    const setCompletionStatus = !todo.completed;
+    await todo.update({ completed: setCompletionStatus });
     return response.json(todo);
   } catch (error) {
     console.log(error);
@@ -66,7 +66,7 @@ app.post("/todos", async function (request, response) {
 app.put("/todos/:id", async function (request, response) {
   const todo = await Todo.findByPk(request.params.id);
   try {
-    await todo.setCompletionStatus(todo.completed);
+    await todo.setCompletionStatus(request.body.completed);
     return response.json(todo);
   } catch (error) {
     console.log(error);a
