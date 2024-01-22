@@ -37,17 +37,17 @@ app.get("/todos", async function (_request, response) {
   }
 });
 
-app.put("/todos/:id", async function (request, response) {
-  const todo = await Todo.findByPk(request.params.id);
-  try {
-    const setCompletionStatus = !todo.completed;
-    await todo.update({ completed: setCompletionStatus });
-    return response.json(todo);
-  } catch (error) {
-    console.log(error);
-    return response.status(422).json(error);
-  }
-});
+// app.put("/todos/:id", async function (request, response) {
+//   const todo = await Todo.findByPk(request.params.id);
+//   try {
+//     const setCompletionStatus = !todo.completed;
+//     await todo.update({ completed: setCompletionStatus });
+//     return response.json(todo);
+//   } catch (error) {
+//     console.log(error);
+//     return response.status(422).json(error);
+//   }
+// });
 
 app.post("/todos", async function (request, response) {
   try {
