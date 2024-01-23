@@ -1,28 +1,96 @@
 const express = require("express");
 const app = express();
-var csrf = require("csurf");
-var cookieParser = require("cookie-parser");
-const { Todo } = require("./models");
+const csrf = require("tiny-csrf");
+const cookieParser = require("cookie-parser");
+const { Todo, User } = require("./models");
 const bodyParser = require("body-parser");
-app.use(bodyParser.json());
+const passport = require('passport');
+const connectEnsureLogin = require('connect-ensure-login');
+const session = require('express-session');
+const LocalStrategy = require('passport-local');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 const path = require("path");
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser("ssh! some secret string"));
-app.use(csrf({ cookie: true }));
+const flash = require("connect-flash");
+
+app.use(flash());
+
 app.set("view engine", "ejs");
-// app.set("views", path.join(__dirname, "views"));
-// app.use(express.static(path.join(__dirname, "public")));
+
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser("shh! some secret string"));
+app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use(session({
+  secret: "my-super-secret-key-66498466848",
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000,
+  },
+  resave: true,
+  saveUninitialized: true,
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(function (request, response, next) {
+  response.locals.messages = request.flash();
+  next();
+});
+
+passport.use(new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password'
+}, (username, password, done) => {
+  User.findOne({ where: { email: username } })
+    .then(async function (user) {
+      const result = await bcrypt.compare(password, user.password);
+      if (result) {
+        return done(null, user);
+      } else {
+        return done(null, false, { message: "Invalid password" });
+      }
+    })
+    .catch((error) => {
+      return done(null, false, { message: "Invalid E-mail" });
+    });
+}));
+
+passport.serializeUser((user, done) => {
+  console.log("Serializing user in session", user.id);
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findByPk(id)
+    .then(user => {
+      done(null, user);
+    })
+    .catch(error => {
+      done(error, null);
+    });
+});
+
 app.get("/", async (request, response) => {
   const allTodos = await Todo.allTodos();
+  const messages = {
+    error: request.flash("error"),
+    success: request.flash("success"),
+  };
+
   if (request.accepts("html")) {
     response.render("index", {
       allTodos,
       csrfToken: request.csrfToken(),
+      messages, // Pass the flash messages to the view
     });
   } else {
     response.json(allTodos);
   }
 });
+
 
 app.use(express.static(path.join(__dirname, "public")));
 

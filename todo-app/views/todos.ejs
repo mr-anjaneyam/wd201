@@ -1,30 +1,8 @@
 <div class="items-center">
-  <% var countOverdue = 0;
-  var countDueToday = 0;
-  var countDueLater = 0;
-  var countCompleted = 0;
-
-  for (var i = 0; i < allTodos.length; i++) {
-    const date1 = new Date();
-    const date2 = new Date(allTodos[i].dueDate);
-    date1.setHours(0, 0, 0, 0);
-    date2.setHours(0, 0, 0, 0);
-
-    if (allTodos[i].completed) {
-      countCompleted++;
-      continue;
-    }
-
-    if (date2 < date1) countOverdue++;
-    else if (date2 > date1) countDueLater++;
-    else countDueToday++;
-  }
-  %>
-
-  <!-- Overdue Section -->
   <div>
     <h5 style="display: inline-block; margin-right: 1rem">Overdue</h5>
-    <span id="count-overdue" class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2" style="display: inline-block"><%= countOverdue %></span>
+    <span id="count-overdue" class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2"
+      style="display: inline-block"><%= countOverdue %></span>
   </div>
 
   <ul class="list-none">
@@ -33,14 +11,21 @@
       const date2 = new Date(allTodos[i].dueDate);
       date1.setHours(0, 0, 0, 0);
       date2.setHours(0, 0, 0, 0);
+
       if (!allTodos[i].completed && date2 < date1) { %>
         <li class="Todo-Item">
           <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-gray-50">
-            <input id="todo-<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %> onclick="updateTodo(<%= allTodos[i].id %>,<%= allTodos[i].completed %>)" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray">
-            <label for="todo-<%= allTodos[i].id %>" class="ml-2 text-sm text-gray-600 cursor-pointer"><%= allTodos[i].title %></label>
+            <input id="todo-<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %>
+              onclick="updateTodo(<%= allTodos[i].id %>,<%= allTodos[i].completed %>)" type="checkbox"
+              class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray">
+            <label for="todo-<%= allTodos[i].id %>"
+              class="ml-2 text-sm text-gray-600 cursor-pointer"><%= allTodos[i].title %></label>
             <a href="#" class="hidden trash-icon ml-2" onclick="deleteTodo(<%= allTodos[i].id %>)">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                <path d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z" stroke="currentColor" stroke-width="2" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-4 h-4">
+                <path
+                  d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z"
+                  stroke="currentColor" stroke-width="2" />
               </svg>
             </a>
           </div>
@@ -52,7 +37,8 @@
   <!-- Due Today Section -->
   <div>
     <h5 style="display: inline-block; margin-right: 1rem">Due Today</h5>
-    <span id="count-due-today" class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2" style="display: inline-block"><%= countDueToday %></span>
+    <span id="count-due-today" class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2"
+      style="display: inline-block"><%= countDueToday %></span>
   </div>
 
   <ul class="list-none">
@@ -64,11 +50,17 @@
       if (!allTodos[i].completed && date2.getTime() == date1.getTime()) { %>
         <li class="Todo-Item">
           <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-gray-50">
-            <input id="todo-<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %> onclick="updateTodo(<%= allTodos[i].id %>,<%= allTodos[i].completed %>)" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray">
-            <label for="todo-<%= allTodos[i].id %>" class="ml-2 text-sm text-gray-600 cursor-pointer"><%= allTodos[i].title %></label>
+            <input id="todo-<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %>
+              onclick="updateTodo(<%= allTodos[i].id %>,<%= allTodos[i].completed %>)" type="checkbox"
+              class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray">
+            <label for="todo-<%= allTodos[i].id %>"
+              class="ml-2 text-sm text-gray-600 cursor-pointer"><%= allTodos[i].title %></label>
             <a href="#" class="hidden trash-icon ml-2" onclick="deleteTodo(<%= allTodos[i].id %>)">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                <path d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z" stroke="currentColor" stroke-width="2" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-4 h-4">
+                <path
+                  d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z"
+                  stroke="currentColor" stroke-width="2" />
               </svg>
             </a>
           </div>
@@ -80,7 +72,8 @@
   <!-- Due Later Section -->
   <div>
     <h5 style="display: inline-block; margin-right: 1rem">Due Later</h5>
-    <span id="count-due-later" class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2" style="display: inline-block"><%= countDueLater %></span>
+    <span id="count-due-later" class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2"
+      style="display: inline-block"><%= countDueLater %></span>
   </div>
 
   <ul class="list-none">
@@ -92,11 +85,17 @@
       if (!allTodos[i].completed && date2 > date1) { %>
         <li class="Todo-Item">
           <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-gray-50">
-            <input id="todo-<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %> onclick="updateTodo(<%= allTodos[i].id %>,<%= allTodos[i].completed %>)" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray">
-            <label for="todo-<%= allTodos[i].id %>" class="ml-2 text-sm text-gray-600 cursor-pointer"><%= allTodos[i].title %></label>
+            <input id="todo-<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %>
+              onclick="updateTodo(<%= allTodos[i].id %>,<%= allTodos[i].completed %>)" type="checkbox"
+              class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray">
+            <label for="todo-<%= allTodos[i].id %>"
+              class="ml-2 text-sm text-gray-600 cursor-pointer"><%= allTodos[i].title %></label>
             <a href="#" class="hidden trash-icon ml-2" onclick="deleteTodo(<%= allTodos[i].id %>)">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                <path d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z" stroke="currentColor" stroke-width="2" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-4 h-4">
+                <path
+                  d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z"
+                  stroke="currentColor" stroke-width="2" />
               </svg>
             </a>
           </div>
@@ -108,7 +107,8 @@
   <!-- Completed Items Section -->
   <div>
     <h5 style="display: inline-block; margin-right: 1rem">Completed Items</h5>
-    <span id="count-completed" class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2" style="display: inline-block"><%= countCompleted %></span>
+    <span id="count-completed" class="bg-gray-200 text-black px-3 py-1 rounded font-medium mr-2 mb-2"
+      style="display: inline-block"><%= countCompleted %></span>
   </div>
 
   <ul class="list-none">
@@ -116,16 +116,22 @@
       <% if (allTodos[i].completed) { %>
         <li class="Todo-Item">
           <div class="flex items-center w-fit my-2 px-2 py-1 rounded hover:bg-gray-50">
-            <input id="todo-<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %> onclick="updateTodo(<%= allTodos[i].id %>,<%= allTodos[i].completed %>)" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray">
-            <label for="todo-<%= allTodos[i].id %>" class="ml-2 text-sm text-gray-600 cursor-pointer"><%= allTodos[i].title %></label>
+            <input id="todo-<%= allTodos[i].id %>" <%= allTodos[i].completed ? "checked" : "" %>
+              onclick="updateTodo(<%= allTodos[i].id %>,<%= allTodos[i].completed %>)" type="checkbox"
+              class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray">
+            <label for="todo-<%= allTodos[i].id %>"
+              class="ml-2 text-sm text-gray-600 cursor-pointer"><%= allTodos[i].title %></label>
             <a href="#" class="hidden trash-icon ml-2" onclick="deleteTodo(<%= allTodos[i].id %>)">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                <path d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z" stroke="currentColor" stroke-width="2" />
-              </svg>
-            </a>
-          </div>
-        </li>
-      <% } %>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="w-4 h-4">
+              <path
+                d="M6.343 5.657a1 1 0 011.414 0L12 10.586l4.243-4.243a1 1 0 011.414 1.414L13.414 12l4.243 4.243a1 1 0 01-1.414 1.414L12 13.414l-4.243 4.243a1 1 0 01-1.414-1.414L10.586 12 6.343 7.757a1 1 0 010-1.414z"
+                stroke="currentColor" stroke-width="2" />
+            </svg>
+          </a>
+        </div>
+      </li>
     <% } %>
-  </ul>
+  <% } %>
+</ul>
 </div>
