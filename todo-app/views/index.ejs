@@ -5,17 +5,16 @@
   <meta name="csrf-token" content="<%= csrfToken %>" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>To-Do Manager</title>
+  <title>TO-DO Manager</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="/css/styles.css" />
   <script>
     var token = document
       .querySelector('meta[name="csrf-token"]')
       .getAttribute("content");
-
-    function updateTodo(id, completed) {
+      function updateTodo(id, completed) {
       const checkbox = document.querySelector(`#todo-${id}`);
-      const intendedCompletedState = !completed;
+      const intendedCompletedState = !completed; // Toggle the completion status
 
       fetch(`/todos/${id}`, {
         method: "put",
@@ -27,6 +26,18 @@
       })
         .then((res) => {
           if (res.ok) {
+            // // Move todo item to Completed Items section on the client side
+            // const todoItem = document.querySelector(`#todo-${id}`).closest('.Todo-Item');
+            // const completedItemsList = document.querySelector('#completed-items-list');
+
+            // // Remove from the original section (Overdue, Due Today, Due Later)
+            // const originalSection = getOriginalSection(todoItem);
+            // originalSection.removeChild(todoItem);
+
+            // if (intendedCompletedState) {
+            //   // Move to Completed Items
+            //   completedItemsList.appendChild(todoItem);
+            // }
             window.location.reload();
           }
         })
@@ -34,6 +45,19 @@
 
       return false;
     }
+
+
+    function getOriginalSection(todoItem) {
+      if (todoItem.classList.contains('overdue-section')) {
+        return document.querySelector('#overdue-list');
+      } else if (todoItem.classList.contains('due-today-section')) {
+        return document.querySelector('#due-today-list');
+      } else if (todoItem.classList.contains('due-later-section')) {
+        return document.querySelector('#due-later-list');
+      }
+      return document.querySelector('#completed-items-list');
+    }
+
 
     function deleteTodo(id) {
       console.log(id);
@@ -51,7 +75,6 @@
         })
         .catch((err) => console.error(err));
     }
-
     function validateForm() {
       const dueDateInput = document.querySelector('input[name="dueDate"]');
       if (dueDateInput.value.trim() === "") {
@@ -60,16 +83,14 @@
       }
       return true;
     }
+
   </script>
 </head>
 
 <body>
-  <div class="grid grid-cols-6">
+  <div class="grid pt-28 grid-cols-6">
     <div class="col-start-3 col-span-2">
-      <% include('header.ejs') %>
-        <div>
-          <a href="/signout">Signout</a>
-        </div>
+      <%- include("header.ejs") %> <br>
         <form action="/todos" method="post" onsubmit="return validateForm()">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <div class="flex gap-2 mt-5">
@@ -87,24 +108,11 @@
               </button>
             </div>
           </div>
-        </form>
-
-        <%- include('todo.ejs',{ "container" : "Overdue" , "id" : "count-overdue" , "todos" : Overdue }) %>
-          <%- include('todo.ejs',{ "container" : "Due Today" , "id" : "count-due-today" , "todos" : DueToday }) %>
-            <%- include('todo.ejs',{ "container" : "Due Later" , "id" : "count-due-later" , "todos" : DueLater }) %>
-              <%- include('todo.ejs',{ "container" : "Completed Items" , "id" : "count-completed" , "todos" : Complete
-                }) %>
-
-                <% if(messages && messages.error && messages.error.length> 0) { %>
-                  <% for(var i=0; i<messages.error.length; i++) { %>
-                    <li>
-                      <%= messages.error[i] %><br>
-                    </li>
-                    <% } %>
-                      <% } %>
+        </form> <br>
+        <%- include('todos.ejs') %> <br>
+          <%- include("footer.ejs") %>
     </div>
   </div>
-  <% include('footer.ejs') %>
 </body>
 
 </html>
